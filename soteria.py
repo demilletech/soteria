@@ -1,6 +1,60 @@
-from flask import Flask
+from flask import Flask, jsonify
+import objects
+from objects import Certificate
+from certutil import create_certificate
+
+objects.init()
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    '''o = ""
+    for cert in Certificate.get():
+        o += cert.__str__()
+    
+    return jsonify(o)'''
+    return jsonify(create_default_cert())
+
+
+
+def create_default_cert():
+
+    publickey = """
+    -----BEGIN CERTIFICATE-----
+MIIF8zCCA9ugAwIBAgICEAIwDQYJKoZIhvcNAQENBQAwgYQxCzAJBgNVBAYTAlVT
+MRQwEgYDVQQIDAtDb25uZWN0aWN1dDEUMBIGA1UECgwLZGVtaWxsZVRlY2gxEzAR
+BgNVBAsMClRlY2hub2xvZ3kxNDAyBgNVBAMMK2RlbWlsbGVUZWNoIFN0YW1mb3Jk
+LUVhbW9ubiBJbnRlcm1lZGlhdGUgQ0EwHhcNMTcxMTIyMDEzOTUzWhcNMjcxMTIw
+MDEzOTUzWjCBpzELMAkGA1UEBhMCVVMxFDASBgNVBAgTC0Nvbm5lY2l0Y3V0MREw
+DwYDVQQHEwhTdGFtZm9yZDEUMBIGA1UEChMLZGVtaWxsZVRlY2gxEzARBgNVBAsT
+ClRlY2hub2xvZ3kxGjAYBgNVBAMTEURUIFNUTSBwZlNlbnNlIENBMSgwJgYJKoZI
+hvcNAQkBFhl3ZWJtYXN0ZXJAZGVtaWxsZXRlY2gubmV0MIICIjANBgkqhkiG9w0B
+AQEFAAOCAg8AMIICCgKCAgEA1R+7g/dXCQUD3I3YcUYiZD9ik3WFP0CbsMikySNG
++n4Y5kAu/CSIvPCrTprO7+kvqEr1pv3TPQM2SUglQwz9SJJJvZYGg8CqYx/Rs29E
+8Zd4i3fbn0R8noZhEAxUqKjFI6p3hmsqnup6d0qpHeg5nTT940RbkFCERKGP8sKc
+exJG6rdo18IpHRx2Z1jONOP7HMDFArfmOT3e6ftmyh4LpJPOlbx5d42aBV9Ga+qx
+8AVIAz/S+npRSAetRhuSJHOESKfI49AloVWHgUAX7EkL5GkVDNKWymHEAblD7h3i
+4GOFyjtCjhx7QxaSWK3ftOEcC/NLI+2k/6nA9k/i50pms8aXZxKBS9m15QgACjhj
+w+goTP3wdfPUZ7ax8Ecaw4eoyvBy59xtHLDDDr6xdok+LzX6alUmlYLYtNQQ09Ic
+uDyXv6cPM8yuXC453OKV2YkMacIAQwyREdlkwfr1BJrH3cz6gJwsfSNoNsm2CjIR
+D1t/DZFSpj60a9ucl53xvj9X+DDTXwHhXen0wtGI0k3O/FDolvdVv5vCjuYejUGc
+eSHoPzXfEY3YnhlOICPXPjjzbAc9r8CzLUspCkynUk5ZStwCd4QHlTQgJ+CylnKT
+f9kCxuL2PEDKrGxmpN6BhzfRC5rE8jrIDx4jEhQGlPndOzjM77/dab6uGlmwcFCo
+OA8CAwEAAaNKMEgwRgYDVR0RBD8wPYIecm91dGVyLnN0bS5pbmYuZGVtaWxsZXRl
+Y2gubmV0ghVzZXJ2ZXIucG9wdWxpbmV4dS5uZXSHBAplAAEwDQYJKoZIhvcNAQEN
+BQADggIBABli38E1XhNZYuZQ/BcBK0V0p0REEhiN3pRiIbBrK1ab5bRy4slo8KH+
+ONQQRtCWD2vzeNKsZ/KD9zQC49Vb23nmjUKqIywjOOR5gvTa/OITg5YsuyMgSWPG
+owXY44MNPQMGTusMo5vZzUaCvo/m1rWZ3+ytjjMw53iuBTeKTMaRIX1L5BG0CKQK
+m86IPj+qDknZxJXvSnbNWQKOOpThKsb2DNUQ2EQuFbkG6/5WARBvUMgFeEZrpBj0
+X0TGGX+0u1Yy87T2uY7y7A0gWq9kV1owrf20PRleATCtqfLL2GmZES9fvXHXIwzP
+aILFSq2RBRkXW1sKL3EIhPIxryxzrmtTuvXBbn5oWMz2gWpEJVUdCZCrkr6qEX+V
+MLZLqN5P9FTIbAyGGZwosd6szWhruS4bBR4sHdt6uNPMHHcE7e8Dd+xyRNpUGxV/
+Y1HMkArMEK9wy5yYHemzmIJMmdH3l2UEG1RgOIz0L6cHau1DjMFciVeXRB3uRn04
+q+hQnxATFOQMQzLouHGT3UNuGYPLNBw0e0hJkPsv0b/AE14suCw8YuvrKtWC8wF1
+pZ6fIqAoHmyW2yw9qWKj1iU0Rofch34rPfjJu+l6GBpRc8L9FsAaNuPZaa27yEpi
+E9BpRVvl80sZ86TITQGCckB6myxOzGjMXlTNNMi0uMhHkjE3l/oE
+-----END CERTIFICATE-----
+    """
+    return create_certificate(publickey)
